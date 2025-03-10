@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using ApplicationLayer.Haqbahoo.IService;
+using ApplicationLayer.Haqbahoo.Service;
+using Haqbahoo.Helper;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +15,9 @@ namespace ApplicationLayer.Haqbahoo
         public static IServiceCollection AddApplicationService(this IServiceCollection services)
         {
             services.AddRazorPages();
-
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IFeatureService, FeatureService>();
+            services.AddScoped<FileUploader>();
             return services;
             //dsd
         }

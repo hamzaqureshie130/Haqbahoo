@@ -1,18 +1,32 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using DomainLayer.Haqbahoo.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InfrastructionLayer.Haqbahoo.Persistence
 {
-   public class ApplicationDbContext: IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
 
+        // Categories Table
+        public DbSet<Category> Categories { get; set; }
+
+        // Cars Table
+        public DbSet<Car> Cars { get; set; }
+
+        // Features Table (Dynamic Car Features)
+        public DbSet<Feature> Features { get; set; }
+
+        // CarFeature (Many-to-Many Relation Between Car and Features)
+        public DbSet<CarFeature> CarFeatures { get; set; }
+
+        // Gallery Table (For Car Images)
+        public DbSet<Gallery> Galleries { get; set; }
+
+      
+     
     }
 }

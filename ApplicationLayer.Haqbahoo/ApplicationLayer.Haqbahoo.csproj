@@ -12,11 +12,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-    <Folder Include="IService\" />
-    <Folder Include="Service\" />
-  </ItemGroup>
-
-	<ItemGroup>
 	  <ProjectReference Include="..\DomainLayer.Haqbahoo\DomainLayer.Haqbahoo.csproj" />
 	  <ProjectReference Include="..\InfrastructionLayer.Haqbahoo\InfrastructionLayer.Haqbahoo.csproj" />
 	</ItemGroup>

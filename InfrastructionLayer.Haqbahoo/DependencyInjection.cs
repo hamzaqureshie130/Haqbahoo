@@ -1,4 +1,6 @@
-﻿using InfrastructionLayer.Haqbahoo.Persistence;
+﻿using InfrastructionLayer.Haqbahoo.IRepository;
+using InfrastructionLayer.Haqbahoo.Persistence;
+using InfrastructionLayer.Haqbahoo.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,8 +30,9 @@ namespace InfrastructionLayer.Haqbahoo
 
             //add Repository
 
-            //services.AddScoped<ICategoryRepository, CategoryRepository>();
-          
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IFeatureRepository, FeatureRepository>();
+
 
             return services;
         }

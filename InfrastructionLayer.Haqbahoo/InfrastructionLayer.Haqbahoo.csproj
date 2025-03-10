@@ -22,8 +22,7 @@
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration" Version="8.0.4" />
 	</ItemGroup>
   <ItemGroup>
-    <Folder Include="IRepository\" />
-    <Folder Include="Repository\" />
+    <ProjectReference Include="..\DomainLayer.Haqbahoo\DomainLayer.Haqbahoo.csproj" />
   </ItemGroup>
 
 </Project>
