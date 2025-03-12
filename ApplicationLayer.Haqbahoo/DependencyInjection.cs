@@ -16,7 +16,11 @@ namespace ApplicationLayer.Haqbahoo
         {
             services.AddRazorPages();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICarService, CarService>();
+            services.AddScoped<IGalleryService, GalleryService>();
             services.AddScoped<IFeatureService, FeatureService>();
+            services.AddScoped<ICarFeatureService, CarFeatureService>();
+
             services.AddScoped<FileUploader>();
             return services;
             //dsd

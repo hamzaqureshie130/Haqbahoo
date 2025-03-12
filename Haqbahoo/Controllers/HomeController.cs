@@ -1,20 +1,30 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Haqbahoo.Models;
+using ApplicationLayer.Haqbahoo.IService;
+using DomainLayer.Haqbahoo.ViewModel;
 
 namespace Haqbahoo.Controllers;
 
 public class HomeController : Controller
 {
+    private readonly ICarService _carService;
 
-    public HomeController()
+
+    public HomeController(ICarService carService)
     {
-        
+        _carService = carService;
+
+
     }
 
     public IActionResult Index()
     {
-        return View();
+        var homeViewModel = new HomeViewModel
+        {
+            Cars = _carService.GetAllCar().Result
+        };
+        return View(homeViewModel);
     }
 
     public IActionResult AboutUs()

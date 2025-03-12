@@ -31,11 +31,17 @@ namespace InfrastructionLayer.Haqbahoo.Migrations
                     b.Property<Guid>("CategoryId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("CoverImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("RentPerDay")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 

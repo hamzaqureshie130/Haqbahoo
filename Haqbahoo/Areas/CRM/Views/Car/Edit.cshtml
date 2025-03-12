@@ -1,0 +1,107 @@
+﻿@using DomainLayer.Haqbahoo.ViewModel
+@model CarViewModel
+<div class="page-content">
+	<div class="page-bar">
+		<div class="page-title-breadcrumb">
+			<div class=" pull-left">
+				<div class="page-title">Add Car</div>
+			</div>
+			<ol class="breadcrumb page-breadcrumb pull-right">
+				<li>
+					<i class="fa fa-home"></i>&nbsp;<a class="parent-item"
+											 asp-asp-area="CRM" asp-controller="Dashboard" asp-action="index">Home</a>&nbsp;<i class="fa fa-angle-right"></i>
+				</li>
+				
+				<li class="active">Add Car</li>
+			</ol>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card-box">
+
+				<form method="post" enctype="multipart/form-data">
+					<input type="hidden" asp-for="Car.Id" />
+
+					
+					<div class="card-body row">
+						<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+							@* <label class="mdl-textfield__label">Category</label> *@
+							<select asp-for="Car.CategoryId" class="mdl-textfield__input" style="background:black !important">
+								<option value="" disabled selected>Select a Category</option>
+								@foreach (var category in Model.Category)
+								{
+									<option value="@category.Id">@category.Name</option>
+								}
+							</select>
+							<span asp-validation-for="Car.CategoryId" class="text-danger"></span>
+						</div>
+
+						<div class="col-lg-12 p-t-20">
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+								<input class="mdl-textfield__input" asp-for="Car.Name" type="text">
+								<label class="mdl-textfield__label">Name</label>
+								<span asp-validation-for="Car.Name" class="text-danger"></span>
+							</div>
+						</div>
+						<div class="col-lg-12 p-t-20">
+							<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+								<input class="mdl-textfield__input" asp-for="Car.RentPerDay" type="number">
+								<label class="mdl-textfield__label">Per Day Rent</label>
+								<span asp-validation-for="Car.RentPerDay" class="text-danger"></span>
+							</div>
+						</div>
+						<div class="col-lg-12 p-t-20">
+							<label class="control-label col-md-3">
+								Upload Car Cover Image
+							</label>
+							<div class="col-md-12">
+								<input class="mdl-textfield__input" asp-for="Car.CoverImageFile" type="file">
+							</div>
+						</div>
+						<div class="col-lg-12 p-t-20">
+							<label class="control-label col-md-3">
+								Upload Car Cover Image
+							</label>
+							<div class="col-md-12">
+								<input class="mdl-textfield__input" asp-for="Car.GalleryImageFiles" type="file" multiple>
+							</div>
+						</div>
+						@foreach (var feature in Model.Features)
+						{
+							<div class="col-lg-12 p-t-20">
+								<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+									<input type="checkbox"
+										   name="SelectedFeatureIds"
+										   value="@feature.Id"
+									@(Model.SelectedFeatureIds.Contains(feature.Id) ? "checked" : "") />
+									@feature.Name <br />
+								</div>
+							</div>
+						}
+
+						<div class="col-lg-12 p-t-20 text-center">
+							<button type="submit"
+									class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 m-r-20 btn-circle btn-primary">
+								Create
+							</button>
+							<button type="button" onclick="window.history.back()"
+									class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect m-b-10 btn-circle btn-danger">
+								Cancel
+							</button>
+						</div>
+						
+					</div>
+				</form>
+			</div>
+
+		</div>
+	</div>
+</div>
+@section Scripts {
+	@{
+		<partial name="_ValidationScriptsPartial" />
+
+
+	}
+}
