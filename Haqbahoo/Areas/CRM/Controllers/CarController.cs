@@ -41,8 +41,17 @@ namespace Haqbahoo.Areas.CRM.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (carViewModel.Car.CoverImageFile == null)
+                {
+                    ModelState.AddModelError("Car.CoverImageFile", "Cover image is required.");
+                }
 
+                if (carViewModel.Car.GalleryImageFiles == null || !carViewModel.Car.GalleryImageFiles.Any())
+                {
+                    ModelState.AddModelError("Car.GalleryImageFiles", "At least one gallery image is required.");
+                }
                 var car = await _carService.AddCar(carViewModel.Car);
+
                 if (carViewModel.SelectedFeatureIds != null && carViewModel.SelectedFeatureIds.Any())
                 {
                     List<CarFeature> carFeatures = new List<CarFeature>();
@@ -56,16 +65,16 @@ namespace Haqbahoo.Areas.CRM.Controllers
                             FeatureId = featureId // ✅ Selected Feature Ki ID
                         };
                         await _carFeatureService.AddCarFeature(carFeature);
-
                     }
-
-                    return RedirectToAction(nameof(Index));
                 }
-
+                return RedirectToAction(nameof(Index));
             }
-            return View(carViewModel);
 
+            carViewModel.Category = await _categoryService.GetAllCategory();
+            carViewModel.Features = await _featureService.GetAllFeature();
+            return View(carViewModel);
         }
+
         public async Task<IActionResult> Edit(Guid carId)
         {
             var car = await _carService.GetCarById(carId);

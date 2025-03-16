@@ -32,6 +32,10 @@ namespace Haqbahoo.Areas.CRM.Controllers
         [HttpPost]
         public async Task<IActionResult> AddFeature(DomainLayer.Haqbahoo.Entities.Feature feature)
         {
+            if(feature.ImageFile is null)
+            {
+                ModelState.AddModelError("ImageFile","Please upload an Image");
+            }
             if(!ModelState.IsValid)
             {
                 return View(feature);

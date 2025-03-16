@@ -72,7 +72,7 @@
 												   id="example4">
 												<thead>
 													<tr>
-														<th></th>
+														@* <th></th> *@
 														<th> Name </th>
 													
 														<th> Action </th>
@@ -82,9 +82,9 @@
 													@foreach (var category in Model)
 													{
 														<tr class="odd gradeX">
-															<td class="patient-img">
-																<img src="../assets/img/user/user1.jpg" alt="">
-															</td>
+															@* <td class="patient-img">
+																<img src="/assets/img/user/user1.jpg" alt="">
+															</td> *@
 															<td>@category.Name</td>
 
 															<td>
