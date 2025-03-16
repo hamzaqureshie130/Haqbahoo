@@ -3,26 +3,32 @@ using Microsoft.AspNetCore.Mvc;
 using Haqbahoo.Models;
 using ApplicationLayer.Haqbahoo.IService;
 using DomainLayer.Haqbahoo.ViewModel;
+using System.Threading.Tasks;
 
 namespace Haqbahoo.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ICarService _carService;
+    private readonly IWorkShopService _workShopService;
 
 
-    public HomeController(ICarService carService)
+    public HomeController(ICarService carService,IWorkShopService workShopService)
     {
         _carService = carService;
+        _workShopService = workShopService;
 
 
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
         var homeViewModel = new HomeViewModel
         {
-            Cars = _carService.GetAllCar().Result
+            Cars = await _carService.GetAllCar(),
+            WorkShops = await _workShopService.GetAllWorkShop()
+
+
         };
         return View(homeViewModel);
     }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace DomainLayer.Haqbahoo.Entities
     public class Feature
     {
         public Guid Id { get; set; }
+        [Required(ErrorMessage ="Name is required")]
         public string Name { get; set; }  // e.g., "4 Doors", "Airbags", "Seats 5 Passengers"
         public string ImageUrl { get; set; }
         [NotMapped]

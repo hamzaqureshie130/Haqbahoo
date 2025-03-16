@@ -44,6 +44,10 @@ namespace InfrastructionLayer.Haqbahoo.Repository
                 carFromDb.Name = car.Name;
                 carFromDb.RentPerDay = car.RentPerDay;
                 carFromDb.CategoryId = car.CategoryId;
+                carFromDb.Make = car.Make;
+                carFromDb.Transmission = car.Transmission;
+                carFromDb.Variant = car.Variant;
+                carFromDb.Model = car.Model;
                 if(car.CoverImageUrl != null)
                 {
                     carFromDb.CoverImageUrl = car.CoverImageUrl;

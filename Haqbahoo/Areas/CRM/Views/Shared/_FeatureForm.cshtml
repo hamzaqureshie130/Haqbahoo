@@ -11,9 +11,9 @@
 	</div>
 	<div class="col-lg-12 p-t-20">
 		<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
-			<input class="mdl-textfield__input" asp-for="ImageFile" type="file">
-			<label class="mdl-textfield__label">Upload Feature Icon</label>
-			<span asp-validation-for="Name" class="text-danger"></span>
+			<input class="mdl-textfield__input" asp-for="ImageFile" type="file" accept=".png, .jpg, .jpeg" required>
+			@* <label class="mdl-textfield__label">Upload Feature Icon</label> *@
+			<span asp-validation-for="ImageFile" class="text-danger"></span>
 		</div>
 	</div>
 
