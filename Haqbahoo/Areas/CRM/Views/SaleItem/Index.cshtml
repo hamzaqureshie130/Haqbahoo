@@ -1,0 +1,139 @@
+﻿@using DomainLayer.Haqbahoo.Entities
+@model IEnumerable<SaleItem>
+<div class="page-content">
+	<div class="page-bar">
+		<div class="page-title-breadcrumb">
+			<div class=" pull-left">
+				<div class="page-title">Purchase List</div>
+			</div>
+			<ol class="breadcrumb page-breadcrumb pull-right">
+				<li>
+					<i class="fa fa-home"></i>&nbsp;<a class="parent-item"
+											 href="index.html">Home</a>&nbsp;<i class="fa fa-angle-right"></i>
+				</li>
+				<li>
+					<a class="parent-item" href="">Sale</a>&nbsp;<i class="fa fa-angle-right"></i>
+				</li>
+				<li class="active">Sale List</li>
+			</ol>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="tabbable-line">
+				<!-- <ul class="nav nav-tabs">
+					<li class="active">
+						<a href="#tab1" data-bs-toggle="tab"> List View </a>
+					</li>
+					<li>
+						<a href="#tab2" data-bs-toggle="tab"> Grid View </a>
+					</li>
+				</ul> -->
+				<ul class="nav customtab nav-tabs" role="tablist">
+					<li class="nav-item">
+						<a href="#tab1" class="nav-link active"
+						   data-bs-toggle="tab">
+							List
+							View
+						</a>
+					</li>
+					@* <li class="nav-item">
+						<a href="#tab2" class="nav-link" data-bs-toggle="tab">
+							Grid
+							View
+						</a>
+					</li> *@
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active fontawesome-demo" id="tab1">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card card-box">
+									<div class="card-head">
+										<header>All Sale</header>
+										<div class="tools">
+											<a class="fa fa-repeat btn-color box-refresh"
+											   href="javascript:;"></a>
+											<a class="t-collapse btn-color fa fa-chevron-down"
+											   href="javascript:;"></a>
+											<a class="t-close btn-color fa fa-times"
+											   href="javascript:;"></a>
+										</div>
+									</div>
+									<div class="card-body ">
+										<div class="row">
+											<div class="col-md-6 col-sm-6 col-6">
+												@* <div class="btn-group">
+													<a asp-area="crm" asp-controller="purchase" asp-action="Create" id="addRow"
+													   class="btn btn-primary">
+														Add New <i class="fa fa-plus"></i>
+													</a>
+												</div> *@
+											</div>
+										</div>
+										<table class="table table-striped table-bordered table-hover table-checkable order-column valign-middle"
+											   id="example4">
+											<thead>
+												<tr>
+													<th></th>
+													<th> Title </th>
+													<th> Quantity </th>
+													<th> Selling Price </th>
+
+													<th> Total Amount </th>
+													<th> Sale Date </th>
+													<th> Invoice Number </th>
+
+													<th> Action </th>
+												</tr>
+											</thead>
+											<tbody>
+												@foreach (var sale in Model)
+												{
+														<tr class="odd gradeX">
+															<td class="patient-img">
+																<img src="/assets/crm/img/user/user1.jpg" alt="">
+															</td>
+														<td>@sale.Product.Title</td>
+														<td class="left">@sale.Quantity</td>
+														<td class="left">@sale.SellingPrice</td>
+
+														<td class="left">RS: @sale.Sale.TotalAmount</td>
+														<td class="left">@sale.Sale.SaleDate.ToString("dd-MMM-yyyy")</td>
+
+														<td class="left">@sale.Sale.InvoiceNumber</td>
+
+
+															<td>
+															<a asp-action="Edit" asp-controller="sale" asp-route-id="@sale.Id" asp-area="crm"
+																   class="tblEditBtn">
+																	<i class="fa fa-pencil"></i>
+																</a>
+															<button type="button" onclick="confirmDelete('@sale.Id')" class="tblDelBtn">
+																	<i class="fa fa-trash-o"></i>
+																</button>
+															</td>
+														</tr>
+												}
+
+
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- end page content -->
+@section Scripts {
+	@{
+				<partial name="_ValidationScriptsPartial" />
+
+	}
+}
