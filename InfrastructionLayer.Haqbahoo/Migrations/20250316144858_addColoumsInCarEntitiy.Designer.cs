@@ -4,6 +4,7 @@ using InfrastructionLayer.Haqbahoo.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InfrastructionLayer.Haqbahoo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250316144858_addColoumsInCarEntitiy")]
+    partial class addColoumsInCarEntitiy
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -144,28 +147,6 @@ namespace InfrastructionLayer.Haqbahoo.Migrations
                     b.ToTable("Features");
                 });
 
-            modelBuilder.Entity("DomainLayer.Haqbahoo.Entities.Feedback", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Review")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Feedback");
-                });
-
             modelBuilder.Entity("DomainLayer.Haqbahoo.Entities.Gallery", b =>
                 {
                     b.Property<Guid>("Id")
@@ -183,161 +164,6 @@ namespace InfrastructionLayer.Haqbahoo.Migrations
                     b.HasIndex("CarId");
 
                     b.ToTable("Galleries");
-                });
-
-            modelBuilder.Entity("DomainLayer.Haqbahoo.Entities.Inventory", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("LastUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int?>("QuantityIn")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("QuantityOut")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("Inventories");
-                });
-
-            modelBuilder.Entity("DomainLayer.Haqbahoo.Entities.Product", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<decimal>("PurchasePrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("SalePrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("DomainLayer.Haqbahoo.Entities.Purchase", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("InvoiceNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("PurchaseDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("TotalAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Purchases");
-                });
-
-            modelBuilder.Entity("DomainLayer.Haqbahoo.Entities.PurchaseItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("PurchaseId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("PurchasingPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("PurchaseId");
-
-                    b.ToTable("PurchaseItems");
-                });
-
-            modelBuilder.Entity("DomainLayer.Haqbahoo.Entities.Sale", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("InvoiceNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("SaleDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("TotalAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Sales");
-                });
-
-            modelBuilder.Entity("DomainLayer.Haqbahoo.Entities.SaleItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("SaleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("SellingPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("SaleId");
-
-                    b.ToTable("SaleItems");
                 });
 
             modelBuilder.Entity("DomainLayer.Haqbahoo.Entities.WorkShop", b =>
@@ -603,55 +429,6 @@ namespace InfrastructionLayer.Haqbahoo.Migrations
                     b.Navigation("Car");
                 });
 
-            modelBuilder.Entity("DomainLayer.Haqbahoo.Entities.Inventory", b =>
-                {
-                    b.HasOne("DomainLayer.Haqbahoo.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("DomainLayer.Haqbahoo.Entities.PurchaseItem", b =>
-                {
-                    b.HasOne("DomainLayer.Haqbahoo.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DomainLayer.Haqbahoo.Entities.Purchase", "Purchase")
-                        .WithMany("PurchaseItems")
-                        .HasForeignKey("PurchaseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("Purchase");
-                });
-
-            modelBuilder.Entity("DomainLayer.Haqbahoo.Entities.SaleItem", b =>
-                {
-                    b.HasOne("DomainLayer.Haqbahoo.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DomainLayer.Haqbahoo.Entities.Sale", "Sale")
-                        .WithMany("SaleItems")
-                        .HasForeignKey("SaleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("Sale");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -718,16 +495,6 @@ namespace InfrastructionLayer.Haqbahoo.Migrations
             modelBuilder.Entity("DomainLayer.Haqbahoo.Entities.Feature", b =>
                 {
                     b.Navigation("CarFeatures");
-                });
-
-            modelBuilder.Entity("DomainLayer.Haqbahoo.Entities.Purchase", b =>
-                {
-                    b.Navigation("PurchaseItems");
-                });
-
-            modelBuilder.Entity("DomainLayer.Haqbahoo.Entities.Sale", b =>
-                {
-                    b.Navigation("SaleItems");
                 });
 #pragma warning restore 612, 618
         }

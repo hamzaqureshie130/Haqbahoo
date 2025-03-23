@@ -3312,11 +3312,11 @@ header.main-header .header-sticky.active{
 
 .fleets-single-sidebar-pricing h2{
 	font-family: var(--default-font);
-    font-size: 50px;
+    font-size: 40px;
 }
 
 .fleets-single-sidebar-pricing h2 span{
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 400;
 	color: var(--text-color);
 }

@@ -36,6 +36,15 @@ namespace DomainLayer.Haqbahoo.Entities
         [Required(ErrorMessage = "Transmission is required.")]
         public string Transmission { get; set; }
 
+        [Required(ErrorMessage = "This field is required")]
+        public string AirCondition { get; set; }
+        [Required(ErrorMessage = "This field is required")]
+        public string Driver { get; set; }
+        [Required(ErrorMessage = "This field is required")]
+        public string Fuel { get; set; } = "Without Fuel";
+        [Required(ErrorMessage = "This field is required")]
+        public string Color { get; set; }
+
         //[Required(ErrorMessage = "Cover Image URL is required.")]
         public string CoverImageUrl { get; set; }
 

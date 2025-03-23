@@ -48,6 +48,9 @@ namespace InfrastructionLayer.Haqbahoo.Repository
                 carFromDb.Transmission = car.Transmission;
                 carFromDb.Variant = car.Variant;
                 carFromDb.Model = car.Model;
+                carFromDb.Color = car.Color;
+                carFromDb.Driver = car.Driver;
+                carFromDb.AirCondition = car.AirCondition;
                 if(car.CoverImageUrl != null)
                 {
                     carFromDb.CoverImageUrl = car.CoverImageUrl;

@@ -32,7 +32,12 @@
 	<link href="/assets/crm/css/responsive.css" rel="stylesheet" type="text/css" />
 	<link href="/assets/crm/css/theme/dark/theme-color.css" rel="stylesheet" type="text/css" />
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+	<!-- Select2 CSS -->
+	<!-- jQuery sabse pehle -->
+	<!-- Bootstrap Select CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+	
+	
 	<!-- favicon -->
 	<link rel="shortcut icon" href="/assets/crm/img/favicon.ico" />
 </head>
@@ -378,6 +383,9 @@
 									<span class="title">WorkShop</span>
 								</a>
 							</li>
+
+
+
 							<li class="nav-item">
 								<a asp-controller="product" asp-area="CRM" asp-action="Index" class="nav-link nav-toggle">
 									<i data-feather="calendar"></i>
@@ -396,6 +404,7 @@
 									<span class="title">Sales</span>
 								</a>
 							</li>
+
 						</ul>
 					</div>
 				</div>
@@ -421,9 +430,17 @@
 		<!-- end footer -->
     </div>
 
+	<!-- jQuery -->
+	
 
+
+
+
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/jquery/dist/jquery.js"></script>
 	<!-- start js include path -->
 	<script src="/assets/crm/plugins/jquery/jquery.min.js"></script>
+
 	<script src="/assets/crm/plugins/popper/popper.js"></script>
 	<script src="/assets/crm/plugins/jquery-blockui/jquery.blockui.min.js"></script>
 	<script src="/assets/crm/plugins/jquery-slimscroll/jquery.slimscroll.js"></script>
@@ -445,10 +462,10 @@
 	<!-- summernote -->
 	<script src="/assets/crm/plugins/summernote/summernote.js"></script>
 	<script src="/assets/crm/js/pages/summernote/summernote-data.js"></script>
+	<!-- Bootstrap Select JS -->
+	
 	<!-- end js include path -->
-
-	<script src="~/lib/jquery/dist/jquery.min.js"></script>
-	<script src="~/lib/jquery/dist/jquery.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 	@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

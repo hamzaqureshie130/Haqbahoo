@@ -26,6 +26,9 @@ namespace InfrastructionLayer.Haqbahoo.Persistence
         // Gallery Table (For Car Images)
         public DbSet<Gallery> Galleries { get; set; }
         public DbSet<WorkShop> Workshop { get; set; }
+
+        public DbSet<Feedback> Feedback { get; set; }
+
         // Inventory Tables
         public DbSet<Product> Products { get; set; }
         public DbSet<Purchase> Purchases { get; set; }

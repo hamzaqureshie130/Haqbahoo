@@ -36,12 +36,16 @@ namespace InfrastructionLayer.Haqbahoo
             services.AddScoped<ICarFeatureRepository, CarFeatureRepository>();
             services.AddScoped<ICarRepository, CarRepository>();
             services.AddScoped<IWorkShopRepository, WorkShopRepository>();
+
+            services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IPurchaseRepository, PurchaseRepository>();
             services.AddScoped<IPurchaseItemRepository, PurchaseItemRepository>();
             services.AddScoped<IInventoryRepository, InventoryRepository>();
             services.AddScoped<ISaleRepository, SaleRepository>();
             services.AddScoped<ISaleItemRepository, SaleItemRepository>();
+
 
 
             return services;

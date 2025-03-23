@@ -11,6 +11,7 @@ namespace DomainLayer.Haqbahoo.ViewModel
     {
         public IEnumerable<Car> Cars { get; set; }
         public IEnumerable<WorkShop> WorkShops { get; set; }
+        public IEnumerable<Feedback> Feedbacks { get; set; }
 
     }
 }

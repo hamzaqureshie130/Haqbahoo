@@ -1,5 +1,59 @@
 ﻿@using DomainLayer.Haqbahoo.ViewModel
 @model CarViewModel
+<style>
+    /* Make the form container full width */
+    .container, .col-lg-12 {
+        width: 100%;
+        max-width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    /* Adjust input fields and select2 */
+    .mdl-textfield {
+        width: 100%;
+    }
+
+        .mdl-textfield select,
+        .mdl-textfield input,
+        .mdl-textfield textarea {
+            width: 100%;
+            padding: 10px 15px;
+            font-size: 16px;
+            background: #2C2C3B;
+            color: #FFFFFF;
+            border: 1px solid #5A5A72;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+    /* File inputs */
+    input[type="file"] {
+        width: 100%;
+        color: #FFFFFF;
+    }
+
+    /* Checkboxes */
+    input[type="checkbox"] {
+        transform: scale(1.3);
+        margin-right: 10px;
+    }
+
+    /* Buttons */
+    button {
+        padding: 10px 20px;
+        font-size: 16px;
+        margin: 10px 5px;
+    }
+
+    /* Center the buttons */
+    .button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+</style>
 <div class="page-content">
     <div class="page-bar">
         <div class="page-title-breadcrumb">
@@ -54,29 +108,92 @@
 
 
                         <div class="col-lg-12 p-t-20">
-                            <label>Name</label>
-                            <input class="mdl-textfield__input" asp-for="Car.Name" type="text" required>
-                            <span asp-validation-for="Car.Name" class="text-danger"></span>
+                            <div class="row">
+                                <!-- Transmission Dropdown -->
+                                <div class="col-lg-6">
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+                                        <select asp-for="@Model.Car.Driver" class="mdl-textfield__input" style="background:black !important">
+                                            <option value="" disabled selected>Select Driver Option</option>
+                                            <option value="With Driver">With Driver</option>
+                                            <option value="Without Driver">Without Driver</option>
+                                        </select>
+                                        <span asp-validation-for="@Model.Car.Driver" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Category Dropdown -->
+                                <div class="col-lg-6">
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+                                        <select asp-for="@Model.Car.AirCondition" class="mdl-textfield__input" style="background:black !important">
+                                            <option value="" disabled selected>Select Air Condtion</option>
+                                            <option value="Yes">Yes</option>
+                                            <option value="No">No</option>
+                                        </select>
+                                        <span asp-validation-for="@Model.Car.AirCondition" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="col-lg-12 p-t-20">
-                            <label>Make</label>
-                            <input class="mdl-textfield__input" asp-for="Car.Make" type="text" required>
-                            <span asp-validation-for="Car.Make" class="text-danger"></span>
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label txt-full-width">
+                                <label>Make</label>
+                                <select class="js-example-basic-single" data-live-search="true" asp-for="@Model.Car.Make" required>
+                                    <option value="" disabled selected>Select Car Make</option>
+                                    <option value="Suzuki">Suzuki</option>
+                                    <option value="Toyota">Toyota</option>
+                                    <option value="Honda">Honda</option>
+                                    <option value="Daihatsu">Daihatsu</option>
+                                    <option value="Nissan">Nissan</option>
+                                    <option value="KIA">KIA</option>
+                                    <option value="Hyundai">Hyundai</option>
+                                    <option value="Mitsubishi">Mitsubishi</option>
+                                    <option value="Changan">Changan</option>
+                                    <option value="Mercedes Benz">Mercedes Benz</option>
+                                    <option value="MG">MG</option>
+                                    <option value="Haval">Haval</option>
+                                    <option value="Audi">Audi</option>
+                                    <option value="FAW">FAW</option>
+                                    <option value="BMW">BMW</option>
+                                    <option value="Mazda">Mazda</option>
+                                    <option value="Lexus">Lexus</option>
+                                    <option value="Prince">Prince</option>
+                                    <option value="DFSK">DFSK</option>
+                                    <option value="Proton">Proton</option>
+                                    <option value="Chevrolet">Chevrolet</option>
+                                    <option value="Peugeot">Peugeot</option>
+                                    <option value="Subaru">Subaru</option>
+                                    <option value="Jeep">Jeep</option>
+                                </select>
+                                <span asp-validation-for="@Model.Car.Make" class="text-danger"></span>
+                            </div>
                         </div>
+
 
                         <div class="col-lg-12 p-t-20">
                             <label>Model</label>
                             <input class="mdl-textfield__input" asp-for="Car.Model" type="text" required>
                             <span asp-validation-for="Car.Model" class="text-danger"></span>
                         </div>
+                        <div class="col-lg-12 p-t-20">
+                            <label>Name</label>
+                            <input class="mdl-textfield__input" asp-for="Car.Name" type="text" required>
+                            <span asp-validation-for="Car.Name" class="text-danger"></span>
+                        </div>
+
 
                         <div class="col-lg-12 p-t-20">
                             <label>Variant</label>
                             <input class="mdl-textfield__input" asp-for="Car.Variant" type="text" required>
                             <span asp-validation-for="Car.Variant" class="text-danger"></span>
                         </div>
-                      
+                        <div class="col-lg-12 p-t-20">
+                            <label>Color</label>
+                            <input class="mdl-textfield__input" asp-for="@Model.Car.Color" type="text" required>
+                            <span asp-validation-for="@Model.Car.Color" class="text-danger"></span>
+                        </div>
+
+
                         <div class="col-lg-12 p-t-20">
                             <label>Per Day Rent</label>
                             <input class="mdl-textfield__input" asp-for="Car.RentPerDay" type="number" min="1" required>
@@ -98,7 +215,9 @@
                         @foreach (var feature in Model.Features)
                         {
                             <div class="col-lg-12 p-t-20">
-                                <input type="checkbox" name="SelectedFeatureIds" value="@feature.Id" /> @feature.Name <br />
+                                <input type="checkbox" name="SelectedFeatureIds" value="@feature.Id"
+                                @(Model.SelectedFeatureIds.Contains(feature.Id) ? "checked" : "") />
+                                @feature.Name <br />
                             </div>
                         }
 
@@ -116,6 +235,11 @@
     @{
         <partial name="_ValidationScriptsPartial" />
     }
+    <script>
+         $(document).ready(function() {
+            $('.js-example-basic-single').select2();
+        });
+    </script>
     <script>
         document.getElementById('carForm').addEventListener('submit', function (e) {
             const rentInput = document.getElementById('Car_RentPerDay');

@@ -1,4 +1,5 @@
-﻿@using DomainLayer.Haqbahoo.Entities
+﻿@using ApplicationLayer.Haqbahoo.Helper
+@using DomainLayer.Haqbahoo.Entities
 @model Car
 <!-- Page Header Start -->
 <div class="page-header bg-section parallaxie">
@@ -7,12 +8,12 @@
             <div class="col-lg-12">
                 <!-- Page Header Box Start -->
                 <div class="page-header-box">
-                    <h1 class="text-anime-style-3" data-cursor="-opaque">BMW M2 Car 2017</h1>
+                    <h1 class="text-anime-style-3" data-cursor="-opaque"> @AppHelper.FormatVehicle(Model.Make, Model.Name, Model.Variant, Model.Model)</h1>
                     <nav class="wow fadeInUp">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="index-2.html">home</a></li>
-                            <li class="breadcrumb-item"><a href="index-2.html">car</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">luxury car</li>
+                            <li class="breadcrumb-item"><a asp-controller="Home" asp-area="" asp-action="Index">home</a></li>
+                            <li class="breadcrumb-item"><a>car-detail</a></li>
+                            @* <li class="breadcrumb-item active" aria-current="page">luxury car</li> *@
                         </ol>
                     </nav>
                 </div>
@@ -32,26 +33,79 @@
                     <div class="fleets-single-sidebar-box wow fadeInUp">
                         <!-- Feets Single Sidebar Pricing Start -->
                         <div class="fleets-single-sidebar-pricing">
-                            <h2>RS @Model.RentPerDay<span>/rent par day</span></h2>
+                            <h2>RS @Model.RentPerDay<span>/rent per day</span></h2>
                         </div>
                         <!-- Feets Single Sidebar Pricing End -->
                         <!-- Feets Single Sidebar List Start -->
                         <div class="fleets-single-sidebar-list">
-                            <ul>
-                                @foreach (var feature in Model.CarFeatures)
-                                {
-                                    <li><img src="/@feature.Feature.ImageUrl" alt="">@feature.Feature.Name</li>
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 12px; font-weight: bold; width: 150px;">Name</td>
+                                        <td style="padding: 12px;">
+                                            @AppHelper.FormatVehicle(Model.Make, Model.Name, Model.Variant, Model.Model)
+                                        </td>
+                                    </tr>
+                                    <tr><td colspan="2" style="border-bottom: 1px solid #ddd;"></td></tr>
+                                    <tr>
+                                        <td style="padding: 12px; font-weight: bold; width: 150px;">Category</td>
+                                        <td style="padding: 12px;">@Model.Category.Name</td>
+                                    </tr>
+                                    <tr><td colspan="2" style="border-bottom: 1px solid #ddd;"></td></tr>
 
-                                }
+                                    <tr>
+                                        <td style="padding: 12px; font-weight: bold; width: 150px;">Transmission</td>
+                                        <td style="padding: 12px;">@Model.Transmission</td>
+                                    </tr>
+                                    <tr><td colspan="2" style="border-bottom: 1px solid #ddd;"></td></tr>
 
-                            </ul>
+                                    <tr>
+                                        <td style="padding: 12px; font-weight: bold; width: 150px;">Air Condition</td>
+                                        <td style="padding: 12px;">@Model.AirCondition</td>
+                                    </tr>
+                                  <tr><td colspan="2" style="border-bottom: 1px solid #ddd;"></td></tr>
+                                    <tr>
+                                        <td style="padding: 12px; font-weight: bold; width: 150px;">Driver</td>
+                                        <td style="padding: 12px;">@Model.Driver</td>
+                                    </tr>
+                                    <tr><td colspan="2" style="border-bottom: 1px solid #ddd;"></td></tr>
+                                    <tr>
+                                        <td style="padding: 12px; font-weight: bold; width: 150px;">Fuel</td>
+                                        <td style="padding: 12px;">@Model.Fuel</td>
+                                    </tr>
+                                    <tr><td colspan="2" style="border-bottom: 1px solid #ddd;"></td></tr>
+                                    <tr>
+                                        <td style="padding: 12px; font-weight: bold; width: 150px;">Color</td>
+                                        <td style="padding: 12px;">@Model.Color</td>
+                                    </tr>
+                                    @* <tr><td colspan="2" style="border-bottom: 1px solid #ddd;"></td></tr> *@
+                                </tbody>
+                            </table>
                         </div>
+
                         <!-- Feets Single Sidebar List End -->
                         <!-- Feets Single Sidebar Btn Start -->
                         <div class="fleets-single-sidebar-btn">
-                            <a href="#bookingform" class="btn-default popup-with-form">book now</a>
-                            <span>or</span>
-                            <a href="#" class="wp-btn"><i class="fa-brands fa-whatsapp"></i></a>
+                            @* <a href="#bookingform" class="btn-default popup-with-form">book now</a> *@
+                            @{
+                                var carModel = AppHelper.FormatVehicle(Model.Make, Model.Name, Model.Variant, Model.Model);
+                                var whatsappMessage = "Hello, I would like to rent a car. Here are my details:\n\n" +
+                                "Car Model: " + carModel + "\n" +
+                                "Rental Duration: [Enter Number of Days]\n" +
+                                "Full Name: [Enter Name]\n\n" +
+                                "Please confirm availability and rental charges.\n" +
+                                "Looking forward to your response.\nThanks!";
+
+                                var whatsappLink = "https://wa.me/923245708356?text=" + Uri.EscapeDataString(whatsappMessage);
+                            }
+
+                            <a href="@whatsappLink" class="btn-default" target="_blank">Book Now</a>
+
+                          
+
+
+                            @* <span>or</span> *@
+                            @* <a href="#" class="wp-btn"><i class="fa-brands fa-whatsapp"></i></a> *@
                         </div>
                         <!-- Feets Single Sidebar Btn End -->
                     </div>
@@ -177,8 +231,8 @@
                                 <img src="images/icon-fleets-benefits-1.svg" alt="">
                             </div>
                             <div class="fleets-benefits-content">
-                                <h3>Unlimi ted KMs</h3>
-                                <p>Endless Km with no extra charge </p>
+                                <h3>Note</h3>
+                                <p>All cars only available with driver</p>
                             </div>
                         </div>
                         <!-- Feets Benefits Item End -->
@@ -188,9 +242,10 @@
                                 <img src="images/icon-fleets-benefits-2.svg" alt="">
                             </div>
                             <div class="fleets-benefits-content">
-                                <h3>Unlimi ted KMs</h3>
-                                <p>Endless Km with no extra charge </p>
+                                <h3>Contact Our Sales</h3>
+                                <p><a href="tel:+923245708356">+92 324 5708356</a></p>
                             </div>
+
                         </div>
                         <!-- Feets Benefits Item End -->
                     </div>
@@ -219,23 +274,17 @@
                     <div class="fleets-amenities">
                         <!-- Section Title Start -->
                         <div class="section-title">
-                            <h3 class="wow fadeInUp">amenities</h3>
-                            <h2 class="text-anime-style-3" data-cursor="-opaque">Premium amenities and features</h2>
+                            <h3 class="wow fadeInUp">include</h3>
+                            <h2 class="text-anime-style-3" data-cursor="-opaque">features</h2>
                         </div>
                         <!-- Section Title End -->
                         <!-- Feets Amenities List Start -->
                         <div class="fleets-amenities-list wow fadeInUp" data-wow-delay="0.25s">
                             <ul>
-                                <li>music system</li>
-                                <li>toolkit</li>
-                                <li>abs system</li>
-                                <li>bluetooth</li>
-                                <li>full boot space</li>
-                                <li>usb charger</li>
-                                <li>aux input</li>
-                                <li>spare tyre</li>
-                                <li>power steering</li>
-                                <li>power windows</li>
+                                @foreach(var feature in Model.CarFeatures){
+                                <li>@feature.Feature.Name</li>
+                                }
+                              
                             </ul>
                         </div>
                         <!-- Feets Amenities List End -->
@@ -256,13 +305,13 @@
                                 <h2 class="accordion-header" id="rentalheading1">
                                     <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                             data-bs-target="#rentalcollapse1" aria-expanded="true" aria-controls="rentalcollapse1">
-                                        Driver's License Requirements
+                                        How can I book a car with Haqbahoo?
                                     </button>
                                 </h2>
                                 <div id="rentalcollapse1" class="accordion-collapse collapse show" aria-labelledby="rentalheading1"
                                      data-bs-parent="#rentalaccordion">
                                     <div class="accordion-body">
-                                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal</p>
+                                        <p>You can book a car by calling our customer service, messaging us on WhatsApp, or filling out the booking form on our website. Advance booking is recommended for availability.</p>
                                     </div>
                                 </div>
                             </div>
@@ -272,13 +321,13 @@
                                 <h2 class="accordion-header" id="rentalheading2">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                             data-bs-target="#rentalcollapse2" aria-expanded="false" aria-controls="rentalcollapse2">
-                                        Insurance and Coverage policy
+                                        Do I need to pay in advance to confirm my booking?
                                     </button>
                                 </h2>
                                 <div id="rentalcollapse2" class="accordion-collapse collapse" aria-labelledby="rentalheading2"
                                      data-bs-parent="#rentalaccordion">
                                     <div class="accordion-body">
-                                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal</p>
+                                        <p>Yes, a partial or full advance payment is required to secure your booking. Payment options include bank transfer, JazzCash, Easypaisa, or cash on delivery.</p>
                                     </div>
                                 </div>
                             </div>
@@ -288,13 +337,13 @@
                                 <h2 class="accordion-header" id="rentalheading3">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                             data-bs-target="#rentalcollapse3" aria-expanded="false" aria-controls="rentalcollapse3">
-                                        Available payment Methods
+                                        What documents are required to rent a car?
                                     </button>
                                 </h2>
                                 <div id="rentalcollapse3" class="accordion-collapse collapse" aria-labelledby="rentalheading3"
                                      data-bs-parent="#rentalaccordion">
                                     <div class="accordion-body">
-                                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal</p>
+                                        <p>For self-drive rentals, you need to provide a valid CNIC, a driving license, and a security deposit. If renting with a driver, only your CNIC is required</p>
                                     </div>
                                 </div>
                             </div>
@@ -304,13 +353,13 @@
                                 <h2 class="accordion-header" id="rentalheading4">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                             data-bs-target="#rentalcollapse4" aria-expanded="false" aria-controls="rentalcollapse4">
-                                        Cancellation and Modification policy
+                                        can I take the rental car to other cities like Gilgit or Hunza?
                                     </button>
                                 </h2>
                                 <div id="rentalcollapse4" class="accordion-collapse collapse" aria-labelledby="rentalheading4"
                                      data-bs-parent="#rentalaccordion">
                                     <div class="accordion-body">
-                                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal</p>
+                                        <p>Yes, you can travel to Gilgit, Hunza, Deosai, and other northern areas with our rental cars. However, long-distance travel may require additional charges.</p>
                                     </div>
                                 </div>
                             </div>
@@ -320,13 +369,13 @@
                                 <h2 class="accordion-header" id="rentalheading5">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                             data-bs-target="#rentalcollapse5" aria-expanded="false" aria-controls="rentalcollapse5">
-                                        Smoking and Pet Policies
+                                        Can I rent a car without a driver’s license?
                                     </button>
                                 </h2>
                                 <div id="rentalcollapse5" class="accordion-collapse collapse" aria-labelledby="rentalheading5"
                                      data-bs-parent="#rentalaccordion">
                                     <div class="accordion-body">
-                                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal</p>
+                                        <p>No, a valid Pakistani or international driving license is required for self-drive rentals. However, you can rent a car with a driver without a license.</p>
                                     </div>
                                 </div>
                             </div>
@@ -336,13 +385,13 @@
                                 <h2 class="accordion-header" id="rentalheading6">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                             data-bs-target="#rentalcollapse6" aria-expanded="false" aria-controls="rentalcollapse6">
-                                        The minimum age Requirements
+                                        Can I extend my rental period after booking?
                                     </button>
                                 </h2>
                                 <div id="rentalcollapse6" class="accordion-collapse collapse" aria-labelledby="rentalheading6"
                                      data-bs-parent="#rentalaccordion">
                                     <div class="accordion-body">
-                                        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal</p>
+                                        <p>Yes, you can extend your rental by informing us in advance. Extension is subject to car availability.</p>
                                     </div>
                                 </div>
                             </div>

@@ -21,12 +21,16 @@ namespace ApplicationLayer.Haqbahoo
             services.AddScoped<IFeatureService, FeatureService>();
             services.AddScoped<ICarFeatureService, CarFeatureService>();
             services.AddScoped<IWorkShopService, WorkShopService>();
+
+            services.AddScoped<IFeedbackService, FeedbackService>();
+
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IPurchaseService, PurchaseService>();
             services.AddScoped<IPurchaseItemService, PurchaseItemService>();
             services.AddScoped<IInventoryService, InventoryService>();
             services.AddScoped<ISaleService, SaleService>();
             services.AddScoped<ISaleItemService, SaleItemService>();
+
 
             services.AddScoped<FileUploader>();
             return services;
