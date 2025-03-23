@@ -1,4 +1,5 @@
-﻿function confirmDelete(id) { debugger
+﻿function confirmDelete(id) {
+    debugger
     Swal.fire({
         title: 'Are you sure?',
         text: 'You will not be able to recover this item!',

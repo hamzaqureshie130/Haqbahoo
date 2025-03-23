@@ -1,0 +1,249 @@
+﻿@using DomainLayer.Haqbahoo.Entities
+@model IEnumerable<Product>
+<style>
+	.tblSellBtn, .tblPurchaseBtn {
+	color: white;
+	background: #28a745;
+	border: none;
+	padding: 5px 10px;
+	margin-left: 5px;
+	border-radius: 4px;
+	cursor: pointer;
+	text-decoration: none;
+	display: inline-block;
+	}
+
+	.tblSellBtn i, .tblPurchaseBtn i {
+	margin-right: 5px;
+	}
+
+</style>
+<div class="page-content">
+	<div class="page-bar">
+		<div class="page-title-breadcrumb">
+			<div class=" pull-left">
+				<div class="page-title">Product List</div>
+			</div>
+			<ol class="breadcrumb page-breadcrumb pull-right">
+				<li>
+					<i class="fa fa-home"></i>&nbsp;<a class="parent-item"
+					href="index.html">Home</a>&nbsp;<i class="fa fa-angle-right"></i>
+				</li>
+				<li>
+					<a class="parent-item" href="">Product</a>&nbsp;<i class="fa fa-angle-right"></i>
+				</li>
+				<li class="active">Product List</li>
+			</ol>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="tabbable-line">
+				<!-- <ul class="nav nav-tabs">
+				<li class="active">
+				<a href="#tab1" data-bs-toggle="tab"> List View </a>
+				</li>
+				<li>
+				<a href="#tab2" data-bs-toggle="tab"> Grid View </a>
+				</li>
+				</ul> -->
+				<ul class="nav customtab nav-tabs" role="tablist">
+					<li class="nav-item">
+						<a href="#tab1" class="nav-link active"
+						data-bs-toggle="tab">
+							List
+							View
+						</a>
+					</li>
+					@* <li class="nav-item">
+						<a href="#tab2" class="nav-link" data-bs-toggle="tab">
+							Grid
+							View
+						</a>
+					</li> *@
+				</ul>
+				<div class="tab-content">
+					<div class="tab-pane active fontawesome-demo" id="tab1">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card card-box">
+									<div class="card-head">
+										<header>All Product</header>
+										<div class="tools">
+											<a class="fa fa-repeat btn-color box-refresh"
+											href="javascript:;"></a>
+											<a class="t-collapse btn-color fa fa-chevron-down"
+											href="javascript:;"></a>
+											<a class="t-close btn-color fa fa-times"
+											href="javascript:;"></a>
+										</div>
+									</div>
+									<div class="card-body ">
+										<div class="row">
+											<div class="col-md-6 col-sm-6 col-6">
+												<div class="btn-group">
+													<a asp-area="crm" asp-controller="product" asp-action="Create" id="addRow"
+													class="btn btn-primary">
+														Add New <i class="fa fa-plus"></i>
+													</a>
+												</div>
+											</div>
+										</div>
+										<table class="table table-striped table-bordered table-hover table-checkable order-column valign-middle"
+										id="example4">
+											<thead>
+												<tr>
+													<th></th>
+													<th> Title </th>
+													<th> Code </th>
+													<th> Description </th>
+													<th> Quantity </th>
+													<th> Purchase Price </th>
+													<th> Sale Price </th>
+
+													<th> Action </th>
+												</tr>
+											</thead>
+											<tbody>
+												@foreach (var product in Model)
+												{
+													<tr class="odd gradeX">
+														<td class="patient-img">
+															<img src="/assets/crm/img/user/user1.jpg" alt="">
+														</td>
+														<td>@product.Title</td>
+														<td class="left">@product.Code</td>
+														<td class="left">@product.Description</td>
+														@if (product.Quantity > 10)
+														{
+															<td>
+																<i class="fas fa-circle col-green me-2"></i>@product.Quantity
+															</td>
+														}
+														else
+														{
+															<td>
+																<i class="fas fa-circle col-orange me-2"></i>@product.Quantity
+															</td>
+														}
+														<td class="left">@product.PurchasePrice</td>
+														<td class="left">@product.SalePrice</td>
+													
+													
+														<td>
+															<a asp-action="Edit" asp-controller="Product" asp-route-id="@product.Id" asp-area="crm"
+															   class="tblEditBtn">
+																<i class="fa fa-pencil"></i>
+															</a>
+															<button type="button" onclick="confirmDelete('@product.Id')" class="tblDelBtn">
+																<i class="fa fa-trash-o"></i>
+															</button>
+															<a href="javascript:void(0)" onclick="openSaleModal('@product.Id', '@product.SalePrice')" class="tblSellBtn">
+																<i class="fa fa-shopping-cart"></i> Sell
+															</a>
+
+															<a href="javascript:void(0);" class="tblPurchaseBtn" onclick="openPurchaseModal('@product.Id',@product.PurchasePrice)">
+																<i class="fa fa-truck"></i> Purchase
+															</a>
+														</td>
+
+													</tr>
+												}
+											
+											
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Purchase Modal -->
+<div id="purchaseModal" class="modal fade" tabindex="-1" aria-labelledby="purchaseModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Purchase Product</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form id="purchaseForm">
+					<input type="hidden" id="productId" />
+
+					<div class="mb-3">
+						<label for="quantity" class="form-label">Quantity</label>
+						<input type="number" id="quantity" class="form-control" min="1" value="1" required>
+					</div>
+
+					<div class="mb-3">
+						<label for="purchasePrice" class="form-label">Purchasing Price</label>
+						<input type="number" id="purchasePrice" class="form-control" step="0.01" required>
+					</div>
+
+					<div class="mb-3">
+						<label for="totalAmount" class="form-label">Total Amount</label>
+						<input type="text" id="totalAmount" class="form-control" readonly>
+					</div>
+				</form>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" onclick="submitPurchase()">Purchase</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Sale Modal -->
+<div id="saleModal" class="modal fade" tabindex="-1" aria-labelledby="saleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Sell Product</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<form id="saleForm">
+					<input type="hidden" id="saleProductId" />
+
+					<div class="mb-3">
+						<label for="saleQuantity" class="form-label">Quantity</label>
+						<input type="number" id="saleQuantity" class="form-control" min="1" value="1" required>
+					</div>
+
+					<div class="mb-3">
+						<label for="sellingPrice" class="form-label">Selling Price</label>
+						<input type="number" id="sellingPrice" class="form-control" step="0.01" required>
+					</div>
+
+					<div class="mb-3">
+						<label for="saleTotalAmount" class="form-label">Total Amount</label>
+						<input type="text" id="saleTotalAmount" class="form-control" readonly>
+					</div>
+				</form>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" onclick="submitSale()">Sell</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- end page content -->
+@section Scripts {
+	@{
+		<partial name="_ValidationScriptsPartial" />
+
+		<script src="~/js/product.js"></script>
+
+	}
+}
