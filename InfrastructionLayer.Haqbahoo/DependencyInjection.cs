@@ -36,6 +36,7 @@ namespace InfrastructionLayer.Haqbahoo
             services.AddScoped<ICarFeatureRepository, CarFeatureRepository>();
             services.AddScoped<ICarRepository, CarRepository>();
             services.AddScoped<IWorkShopRepository, WorkShopRepository>();
+            services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 
 
             return services;
