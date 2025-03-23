@@ -94,7 +94,8 @@ function submitSale() {
             if (response.success) {
                 alert('Sale Successful!');
                 $('#saleModal').modal('hide');
-                location.reload();  // Refresh page to reflect changes
+                // Redirect to the invoice page
+                window.location.href = `/Crm/SaleItem/Invoice?saleId=${response.saleId}`;
             } else {
                 alert(response.message || 'Error during sale.');
             }

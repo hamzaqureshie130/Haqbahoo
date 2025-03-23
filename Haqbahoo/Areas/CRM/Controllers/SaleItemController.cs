@@ -1,6 +1,7 @@
 ﻿using ApplicationLayer.Haqbahoo.IService;
 using DomainLayer.Haqbahoo.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Rotativa.MVC;
 
 namespace Haqbahoo.Areas.CRM.Controllers
 {
@@ -29,55 +30,74 @@ namespace Haqbahoo.Areas.CRM.Controllers
         [HttpPost]
         public async Task<IActionResult> Sell(Guid productId, int quantity, decimal salePrice)
         {
-            var product = await _productService.GetProductByIdAsync(productId);
-            if (product == null) return NotFound();
-
-            // Check if enough quantity is available to sell
-            if (product.Quantity < quantity)
+            try
             {
-                return Json(new { success = false, message = "Not enough stock available!" });
+                var product = await _productService.GetProductByIdAsync(productId);
+                if (product == null) return Json(new { success = false, message = "Product not found." });
+
+                // Check if enough quantity is available to sell
+                if (product.Quantity < quantity)
+                {
+                    return Json(new { success = false, message = "Not enough stock available!" });
+                }
+
+                // Reduce product quantity
+                product.Quantity -= quantity;
+                await _productService.UpdateProductAsync(product);
+
+                // Generate unique invoice number
+                string invoiceNumber = await GenerateInvoiceNumber();
+
+                // Create Sale
+                var sale = new Sale
+                {
+                    SaleDate = DateTime.Now,
+                    TotalAmount = quantity * salePrice,
+                    InvoiceNumber = invoiceNumber
+                };
+
+                Guid saleId = await _saleService.AddSale(sale);
+
+                // Create Sale Item
+                var saleItem = new SaleItem
+                {
+                    ProductId = productId,
+                    SaleId = saleId,
+                    Quantity = quantity,
+                    SellingPrice = salePrice
+                };
+
+                bool result = await _saleItemService.AddSaleItem(saleItem);
+
+                // Update Inventory
+                var inventory = new Inventory
+                {
+                    ProductId = productId,
+                    QuantityIn = null,
+                    QuantityOut = quantity,
+                    CreatedDate = DateTime.Now
+                };
+                await _inventoryService.AddQuantityOut(inventory);
+
+                // Return success response with saleId
+                return Json(new { success = true, saleId = saleId });
             }
-
-            // Reduce product quantity
-            product.Quantity -= quantity;
-            await _productService.UpdateProductAsync(product);
-
-            // Generate unique invoice number
-            string invoiceNumber = await GenerateInvoiceNumber();
-
-            // Create Sale
-            var sale = new Sale
+            catch (Exception ex)
             {
-                SaleDate = DateTime.Now,
-                TotalAmount = quantity * salePrice,
-                InvoiceNumber = invoiceNumber
-            };
-
-            Guid saleId = await _saleService.AddSale(sale);
-
-            // Create Sale Item
-            var saleItem = new SaleItem
-            {
-                ProductId = productId,
-                SaleId = saleId,
-                Quantity = quantity,
-                SellingPrice = salePrice
-            };
-
-            bool result = await _saleItemService.AddSaleItem(saleItem);
-
-            // Update Inventory
-            var inventory = new Inventory
-            {
-                ProductId = productId,
-                QuantityIn = null,
-                QuantityOut = quantity,
-                CreatedDate = DateTime.Now
-            };
-            await _inventoryService.AddQuantityOut(inventory);
-
-            return Json(new { success = true });
+                // Log the exception
+               
+                return Json(new { success = false, message = "An error occurred during the sale process." });
+            }
         }
+        public async Task<IActionResult> Invoice(Guid saleId)
+        {
+            var sale = await _saleService.GetSaleById(saleId);
+            if (sale == null) return NotFound();
+
+            return View("Invoice", sale);
+        }
+
+
 
         // Generate Unique Invoice Number
         private async Task<string> GenerateInvoiceNumber()

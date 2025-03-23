@@ -1,0 +1,219 @@
+﻿@model DomainLayer.Haqbahoo.Entities.Sale
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Invoice</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <style>
+        .invoice-title h2, .invoice-title h3 {
+            display: inline-block;
+        }
+
+        .table > tbody > tr > .no-line {
+            border-top: none;
+        }
+
+        .table > thead > tr > .no-line {
+            border-bottom: none;
+        }
+
+        .table > tbody > tr > .thick-line {
+            border-top: 2px solid;
+        }
+
+        .invoice {
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        /* Increase font size for specific elements */
+        .invoice-title h2 {
+            font-size: 24px;
+        }
+
+        .invoice-title h3 {
+            font-size: 18px;
+        }
+
+        .table th, .table td {
+            font-size: 12px;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        /* Hide buttons in PDF */
+        .hide-in-pdf {
+            display: block;
+        }
+
+        @@media print {
+            .hide-in-pdf {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice" data-invoice-number="@Model.InvoiceNumber">
+        <div class="container invoice">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="invoice-title">
+                        <h2>Invoice</h2>
+                        <h3 class="pull-right">Order # @Model.InvoiceNumber</h3>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <address>
+                                <strong>Shop Detail:</strong><br>
+                                Khan Zahoor Plaza,Caltex Road<br>
+                                Near askari 14 gate #1, Rawalpindi<br>
+                                Punjab, Pakistan<br>
+                                Phone: +92 324 5708356
+                            </address>
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            <address>
+                                <strong>Invoice Date:</strong><br>
+                                @Model.SaleDate.ToString("MMM dd, yyyy")<br><br>
+                            </address>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><strong>Order Summary</strong></h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-condensed">
+                                    <thead>
+                                        <tr>
+                                            <th><strong>Product Title</strong></th>
+                                            <th><strong>Description</strong></th>
+                                            <th class="text-center"><strong>Code</strong></th>
+                                            <th class="text-center"><strong>Quantity</strong></th>
+                                            <th class="text-right"><strong>Selling Price</strong></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.SaleItems)
+                                        {
+                                            <tr>
+                                                <td>@item.Product.Title</td>
+                                                <td>@item.Product.Description</td>
+                                                <td class="text-center">@item.Product.Code</td>
+                                                <td class="text-center">@item.Quantity</td>
+                                                <td class="text-right">RS: @item.SellingPrice.ToString("N2")</td>
+                                            </tr>
+                                        }
+                                        <tr>
+                                            <td class="thick-line"></td>
+                                            <td class="thick-line"></td>
+                                            <td class="thick-line"></td>
+                                            <td class="thick-line text-center"><strong>Subtotal</strong></td>
+                                            <td class="thick-line text-right">RS: @Model.TotalAmount.ToString("N2")</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="row">
+                <div class="col-xs-12 text-right">
+                    <!-- Download PDF Button -->
+                    <button id="downloadInvoice" class="btn btn-primary hide-in-pdf" style="margin-right: 10px;">
+                        <i class="fa fa-download"></i> Download Invoice as PDF
+                    </button>
+
+                    <!-- Go to CRM Button -->
+                  
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="invoiceNumber" value="@Model.InvoiceNumber" />
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
+    <!-- Include html2pdf.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <!-- JavaScript for PDF Download -->
+    <script>
+        document.getElementById('downloadInvoice').addEventListener('click', function () {
+            const element = document.querySelector('.invoice');
+            const invoiceNumberInput = document.getElementById('invoiceNumber');
+
+            if (!invoiceNumberInput) {
+                console.error('Error: Hidden input field with id="invoiceNumber" not found.');
+                alert('Error: Unable to generate PDF. Please contact support.');
+                return;
+            }
+
+            const invoiceNumber = invoiceNumberInput.value;
+
+            // Options for better size and clarity
+            const options = {
+                margin: 10,
+                filename: `Invoice_${invoiceNumber}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: {
+                    scale: 4,
+                    useCORS: true,
+                    scrollY: 0
+                },
+                jsPDF: {
+                    unit: 'mm',
+                    format: 'a4',
+                    orientation: 'portrait'
+                }
+            };
+
+            const downloadButton = document.getElementById('downloadInvoice');
+            downloadButton.style.display = 'none';
+
+            html2pdf()
+                .set(options)
+                .from(element)
+                .save()
+                .then(() => downloadButton.style.display = 'block')
+                .catch((error) => {
+                    console.error('Error generating PDF:', error);
+                    alert('Error generating PDF. Please try again.');
+                    downloadButton.style.display = 'block';
+                });
+        });
+    </script>
+
+</body>
+</html>

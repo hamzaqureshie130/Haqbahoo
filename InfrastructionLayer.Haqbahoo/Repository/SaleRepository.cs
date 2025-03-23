@@ -33,7 +33,7 @@ namespace InfrastructionLayer.Haqbahoo.Repository
 
         public Task<Sale> GetSaleById(Guid saleId)
         {
-            var sale = _context.Sales.Include(x => x.SaleItems).FirstOrDefaultAsync(x => x.Id == saleId);
+            var sale = _context.Sales.Include(x => x.SaleItems).ThenInclude(x=>x.Product).FirstOrDefaultAsync(x => x.Id == saleId);
             return sale;
         }
     }
