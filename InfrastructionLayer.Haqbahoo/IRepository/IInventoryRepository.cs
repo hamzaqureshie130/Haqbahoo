@@ -13,5 +13,6 @@ namespace InfrastructionLayer.Haqbahoo.IRepository
         Task<bool> AddQuantityOut(Inventory inventory);
         Task<IEnumerable<Inventory>> GetInventories();
         Task<Inventory> GetInventoryById(Guid inventoryId);
+        Task<IEnumerable<object>> GetStockReport();
     }
 }

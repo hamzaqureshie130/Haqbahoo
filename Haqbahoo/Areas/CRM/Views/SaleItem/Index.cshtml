@@ -92,7 +92,7 @@
 												{
 														<tr class="odd gradeX">
 															<td class="patient-img">
-																<img src="/assets/crm/img/user/user1.jpg" alt="">
+															<img src="~/assets/site/siteimages/4.jpg" />
 															</td>
 														<td>@sale.Product.Title</td>
 														<td class="left">@sale.Quantity</td>
@@ -105,13 +105,9 @@
 
 
 															<td>
-															<a asp-action="Edit" asp-controller="sale" asp-route-id="@sale.Id" asp-area="crm"
-																   class="tblEditBtn">
-																	<i class="fa fa-pencil"></i>
-																</a>
-															<button type="button" onclick="confirmDelete('@sale.Id')" class="tblDelBtn">
-																	<i class="fa fa-trash-o"></i>
-																</button>
+																	<a asp-area="crm" asp-controller="saleItem" asp-action="Invoice" asp-route-saleId="@sale.Sale.Id" class="btn btn-primary btn-sm">
+																<i class="fas fa-file-invoice"></i> Generate Invoice
+															</a>
 															</td>
 														</tr>
 												}

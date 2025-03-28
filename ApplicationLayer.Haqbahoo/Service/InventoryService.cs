@@ -37,5 +37,10 @@ namespace ApplicationLayer.Haqbahoo.Service
         {
            return await _inventoryRepository.GetInventoryById(inventoryId);
         }
+
+        public async Task<IEnumerable<object>> GetStockReport()
+        {
+            return await _inventoryRepository.GetStockReport();
+        }
     }
 }

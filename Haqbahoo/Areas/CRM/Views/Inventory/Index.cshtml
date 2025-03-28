@@ -1,10 +1,10 @@
 ﻿@using DomainLayer.Haqbahoo.Entities
-@model IEnumerable<PurchaseItem>
+@model IEnumerable<Inventory>
 <div class="page-content">
 	<div class="page-bar">
 		<div class="page-title-breadcrumb">
 			<div class=" pull-left">
-				<div class="page-title">Purchase List</div>
+				<div class="page-title">Inventory List</div>
 			</div>
 			<ol class="breadcrumb page-breadcrumb pull-right">
 				<li>
@@ -12,9 +12,9 @@
 											 href="index.html">Home</a>&nbsp;<i class="fa fa-angle-right"></i>
 				</li>
 				<li>
-					<a class="parent-item" href="">Purchase</a>&nbsp;<i class="fa fa-angle-right"></i>
+					<a class="parent-item" href="">Sale</a>&nbsp;<i class="fa fa-angle-right"></i>
 				</li>
-				<li class="active">Purchase List</li>
+				<li class="active">Inventory List</li>
 			</ol>
 		</div>
 	</div>
@@ -50,7 +50,7 @@
 							<div class="col-md-12">
 								<div class="card card-box">
 									<div class="card-head">
-										<header>All Purchase</header>
+										<header>All Inventory</header>
 										<div class="tools">
 											<a class="fa fa-repeat btn-color box-refresh"
 											   href="javascript:;"></a>
@@ -76,44 +76,44 @@
 											<thead>
 												<tr>
 													<th></th>
+													<th> Code </th>
 													<th> Title </th>
-													<th> Quantity </th>
-													<th> Purchase Price </th>
+													<th> Initial Stock </th>
+													<th> Current Stock </th>
+													<th> Quantity In </th>
+													<th> Quantity Out </th>
 													
-													<th> Total Amount </th>
-													<th> Purchase Date </th>
-													<th> Invoice Number </th>
+													<th> Last Update </th>
 
 													@* <th> Action </th> *@
 												</tr>
 											</thead>
 											<tbody>
-												@foreach (var product in Model)
+												@foreach (var inventory in Model)
 												{
-													<tr class="odd gradeX">
-														<td class="patient-img">
-															<img src="~/assets/site/siteimages/4.jpg" />
-														</td>
-														<td>@product.Product.Title</td>
-														<td class="left">@product.Quantity</td>
-														<td class="left">@product.PurchasingPrice</td>
-														
-														<td class="left">RS: @product.Purchase.TotalAmount</td>
-														<td class="left">@product.Purchase.PurchaseDate.ToString("dd-MMM-yyyy")</td>
+															<tr class="odd gradeX">
+																<td class="patient-img">
+																<img src="~/assets/site/siteimages/4.jpg" />
+																</td>
+														<td>@inventory.Product.Code</td>
+															<td class="left">@inventory.Product.Title</td>
+														<td class="left">@(inventory.Product.Quantity - (inventory.QuantityIn ?? 0) + (inventory.QuantityOut ?? 0))</td>
 
-														<td class="left">@product.Purchase.InvoiceNumber</td>
+														<td class="left">@inventory.Product.Quantity</td>
+															<td class="left">@inventory.QuantityIn</td>
+															<td class="left">@inventory.QuantityOut</td>
+														<td class="left">@inventory.CreatedDate.ToString("dd-MMM-yyyy")</td>
 
-
-														@* <td>
-															<a asp-action="Edit" asp-controller="Product" asp-route-id="@product.Id" asp-area="crm"
-															   class="tblEditBtn">
-																<i class="fa fa-pencil"></i>
-															</a>
-															<button type="button" onclick="confirmDelete('@product.Id')" class="tblDelBtn">
-																<i class="fa fa-trash-o"></i>
-															</button>
-														</td> *@
-													</tr>
+													@* 			<td>
+																<a asp-action="Edit" asp-controller="sale" asp-route-id="@sale.Id" asp-area="crm"
+																	   class="tblEditBtn">
+																		<i class="fa fa-pencil"></i>
+																	</a>
+																<button type="button" onclick="confirmDelete('@sale.Id')" class="tblDelBtn">
+																		<i class="fa fa-trash-o"></i>
+																	</button>
+																</td> *@
+															</tr>
 												}
 
 
@@ -132,10 +132,7 @@
 </div>
 <!-- end page content -->
 @section Scripts {
-	@{
-		<partial name="_ValidationScriptsPartial" />
-
-		<script src="~/js/product.js"></script>
+	@{<partial name="_ValidationScriptsPartial" />
 
 	}
 }

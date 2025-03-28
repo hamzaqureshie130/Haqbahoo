@@ -14,5 +14,6 @@ namespace ApplicationLayer.Haqbahoo.IService
         Task<IEnumerable<Inventory>> GetInventories();
         Task<Inventory> GetInventoryById(Guid inventoryId);
 
+        Task<IEnumerable<object>> GetStockReport();
     }
 }
