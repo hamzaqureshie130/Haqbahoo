@@ -1,5 +1,6 @@
-﻿@using DomainLayer.Haqbahoo.Entities
-@model IEnumerable<Inventory>
+﻿
+@using DomainLayer.Haqbahoo.ViewModel
+@model IEnumerable<InventoryViewModel>
 <div class="page-content">
 	<div class="page-bar">
 		<div class="page-title-breadcrumb">
@@ -78,7 +79,7 @@
 													<th></th>
 													<th> Code </th>
 													<th> Title </th>
-													<th> Initial Stock </th>
+													
 													<th> Current Stock </th>
 													<th> Quantity In </th>
 													<th> Quantity Out </th>
@@ -91,29 +92,17 @@
 											<tbody>
 												@foreach (var inventory in Model)
 												{
-															<tr class="odd gradeX">
-																<td class="patient-img">
-																<img src="~/assets/site/siteimages/4.jpg" />
-																</td>
-														<td>@inventory.Product.Code</td>
-															<td class="left">@inventory.Product.Title</td>
-														<td class="left">@(inventory.Product.Quantity - (inventory.QuantityIn ?? 0) + (inventory.QuantityOut ?? 0))</td>
-
-														<td class="left">@inventory.Product.Quantity</td>
-															<td class="left">@inventory.QuantityIn</td>
-															<td class="left">@inventory.QuantityOut</td>
-														<td class="left">@inventory.CreatedDate.ToString("dd-MMM-yyyy")</td>
-
-													@* 			<td>
-																<a asp-action="Edit" asp-controller="sale" asp-route-id="@sale.Id" asp-area="crm"
-																	   class="tblEditBtn">
-																		<i class="fa fa-pencil"></i>
-																	</a>
-																<button type="button" onclick="confirmDelete('@sale.Id')" class="tblDelBtn">
-																		<i class="fa fa-trash-o"></i>
-																	</button>
-																</td> *@
-															</tr>
+													<tr>
+														<td class="patient-img">
+															<img src="~/assets/site/siteimages/4.jpg" alt="Product Image" class="img-fluid" />
+														</td>
+														<td>@inventory.Code</td>
+														<td>@inventory.Title</td>
+														<td>@inventory.QuantityAvailable</td>
+														<td>@inventory.QuantityIn</td>
+														<td>@inventory.QuantityOut</td>
+														<td>@inventory.CreatedDate.ToString("dd-MMM-yyyy")</td>
+													</tr>
 												}
 
 

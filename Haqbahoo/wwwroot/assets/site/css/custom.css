@@ -48,7 +48,7 @@
 
 :root{
 	--primary-color			: #040401;
-	--secondary-color		: #FFF8F6;
+	--secondary-color		: #FFF8F6 !important;
 	--text-color			: #616161;
 	--accent-color			: #FF3600;
 	--white-color			: #FFFFFF;

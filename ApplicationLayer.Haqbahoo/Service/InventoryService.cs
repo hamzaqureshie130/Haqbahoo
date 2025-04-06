@@ -1,5 +1,6 @@
 ﻿using ApplicationLayer.Haqbahoo.IService;
 using DomainLayer.Haqbahoo.Entities;
+using DomainLayer.Haqbahoo.ViewModel;
 using InfrastructionLayer.Haqbahoo.IRepository;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace ApplicationLayer.Haqbahoo.Service
            return await _inventoryRepository.GetInventoryById(inventoryId);
         }
 
-        public async Task<IEnumerable<object>> GetStockReport()
+        public async Task<IEnumerable<InventoryViewModel>> GetStockReport()
         {
             return await _inventoryRepository.GetStockReport();
         }

@@ -86,20 +86,22 @@
                         <!-- Feets Single Sidebar List End -->
                         <!-- Feets Single Sidebar Btn Start -->
                         <div class="fleets-single-sidebar-btn">
-                            @* <a href="#bookingform" class="btn-default popup-with-form">book now</a> *@
                             @{
                                 var carModel = AppHelper.FormatVehicle(Model.Make, Model.Name, Model.Variant, Model.Model);
-                                var whatsappMessage = "Hello, I would like to rent a car. Here are my details:\n\n" +
-                                "Car Model: " + carModel + "\n" +
-                                "Rental Duration: [Enter Number of Days]\n" +
-                                "Full Name: [Enter Name]\n\n" +
-                                "Please confirm availability and rental charges.\n" +
-                                "Looking forward to your response.\nThanks!";
+                                var whatsappMessage = $"Hello, I would like to rent a car. Here are my details:\n\n" +
+                                $"Car Model: {carModel}\n" +
+                                $"Rental Duration: [Enter Number of Days]\n" +
+                                $"Full Name: [Enter Name]\n\n" +
+                                $"Please confirm availability and rental charges.\n" +
+                                $"Looking forward to your response.\nThanks!";
 
-                                var whatsappLink = "https://wa.me/923245708356?text=" + Uri.EscapeDataString(whatsappMessage);
+                                var encodedMessage = Uri.EscapeDataString(whatsappMessage); // Encode the message properly
+                                var whatsappLink = $"https://wa.me/923005128289?text={encodedMessage}";
                             }
 
                             <a href="@whatsappLink" class="btn-default" target="_blank">Book Now</a>
+                        
+
 
                           
 

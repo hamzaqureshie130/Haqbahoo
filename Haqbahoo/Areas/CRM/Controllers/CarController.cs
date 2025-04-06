@@ -22,6 +22,7 @@ namespace Haqbahoo.Areas.CRM.Controllers
             _categoryService = categoryService;
             _carFeatureService = carFeatureService;
         }
+        
         public async Task<IActionResult> Index()
         {
             var cars = await _carService.GetAllCar();

@@ -1,0 +1,202 @@
+﻿@using DomainLayer.Haqbahoo.ViewModel
+@model InvoiceViewModel
+@{
+    ViewData["Title"] = "New Sales Invoice";
+}
+<div class="page-content">
+<div class="container mt-5">
+    <h3 class="mb-4 text-center">New Sales Invoice</h3>
+    <div class="invoice-card">
+        <form asp-action="Create" id="invoiceForm">
+            <!-- Invoice Header -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <label class="form-label">Invoice Number</label>
+                    <input type="text" class="form-control" asp-for="InvoiceNumber" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Customer Type</label>
+                    <select class="form-select" name="CustomerType">
+                        <option value="WalkIn">Walk-In Customer</option>
+                        <option value="Online">Online Customer</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Invoice Date</label>
+                    <input type="date" class="form-control" asp-for="InvoiceDate">
+                </div>
+            </div>
+
+            <!-- Dates & Reference -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <label class="form-label">Due Date</label>
+                    <input type="date" class="form-control" asp-for="DueDate">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Reference No.</label>
+                    <input type="text" class="form-control" name="ReferenceNumber" placeholder="Purchase order reference">
+                </div>
+            </div>
+
+            <!-- Product Selection -->
+            <div class="mb-4">
+                <label class="form-label">Add Product</label>
+                <div class="input-group">
+                    <select class="form-select" id="productSelect">
+                        <option value="">Select Product</option>
+                        @foreach (var product in Model.Products)
+                        {
+                            <option value="@product.Id" data-price="@product.SalePrice">@product.Title - @product.SalePrice.ToString("C")</option>
+                        }
+                    </select>
+                    <button type="button" class="btn btn-success" id="addProductBtn">Add</button>
+                </div>
+            </div>
+
+            <!-- Product Table -->
+            <div class="table-responsive mb-4">
+                <table class="table" id="productsTable">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Product/Service</th>
+                            <th>Qty</th>
+                            <th>Unit</th>
+                            <th>Rate</th>
+                            <th>Discount</th>
+                            <th>Amount</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Items will be added dynamically -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-4">
+                <label class="form-label">Description</label>
+                <textarea class="form-control" rows="3" name="Description"></textarea>
+            </div>
+
+            <!-- Summary -->
+            <div class="row">
+                <div class="col-md-8"></div>
+                <div class="col-md-4">
+                    <table class="table">
+                        <tr>
+                            <td>Sub Total</td>
+                            <td><input type="text" class="form-control" id="subTotal" value="0.00" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Discount</td>
+                            <td><input type="text" class="form-control" id="invoiceDiscount" name="Discount" value="0.00"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Grand Total</strong></td>
+                            <td><input type="text" class="form-control" id="grandTotal" name="GrandTotal" value="0.00" readonly></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-success me-2">Save</button>
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='@Url.Action("Index")'">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            let itemCounter = 0;
+
+            // Add product to the table
+            $('#addProductBtn').click(function() {
+                const productId = $('#productSelect').val();
+                const productText = $('#productSelect option:selected').text();
+                const productPrice = parseFloat($('#productSelect option:selected').data('price'));
+
+                if (!productId) {
+                    alert('Please select a product');
+                    return;
+                }
+
+                const newRow = `
+                    <tr>
+                        <td>${productText.split(' - ')[0]}</td>
+                        <td><input type="number" class="form-control quantity" name="Items[${itemCounter}].Quantity" value="1" min="1"></td>
+                        <td>
+                            <select class="form-select unit" name="Items[${itemCounter}].Unit">
+                                <option value="Pcs" selected>Pcs</option>
+                                <option value="Kg">Kg</option>
+                                <option value="Ltr">Ltr</option>
+                                <option value="Box">Box</option>
+                            </select>
+                        </td>
+                        <td><input type="text" class="form-control rate" name="Items[${itemCounter}].Rate" value="${productPrice.toFixed(2)}" readonly></td>
+                        <td><input type="text" class="form-control discount" name="Items[${itemCounter}].Discount" value="0.00"></td>
+                        <td><input type="text" class="form-control amount" name="Items[${itemCounter}].Amount" value="${productPrice.toFixed(2)}" readonly></td>
+                        <td>
+                            <input type="hidden" name="Items[${itemCounter}].ProductId" value="${productId}">
+                            <button type="button" class="btn btn-danger btn-sm remove-item">X</button>
+                        </td>
+                    </tr>
+                `;
+
+                $('#productsTable tbody').append(newRow);
+                $('#productSelect').val('');
+                itemCounter++;
+
+                // Recalculate totals
+                calculateTotals();
+            });
+
+            // Remove item from table
+            $(document).on('click', '.remove-item', function() {
+                $(this).closest('tr').remove();
+                calculateTotals();
+            });
+
+            // Calculate totals when quantity or discount changes
+            $(document).on('input', '.quantity, .discount', function() {
+                const row = $(this).closest('tr');
+                calculateRowTotal(row);
+                calculateTotals();
+            });
+
+            // Invoice discount change
+            $(document).on('input', '#invoiceDiscount', function() {
+                calculateTotals();
+            });
+
+            // Function to calculate row total
+            function calculateRowTotal(row) {
+                const quantity = parseFloat(row.find('.quantity').val()) || 0;
+                const rate = parseFloat(row.find('.rate').val()) || 0;
+                const discount = parseFloat(row.find('.discount').val()) || 0;
+
+                const amount = (quantity * rate) - discount;
+                row.find('.amount').val(amount.toFixed(2));
+            }
+
+            // Function to calculate all totals
+            function calculateTotals() {
+                let subTotal = 0;
+
+                $('#productsTable tbody tr').each(function() {
+                    subTotal += parseFloat($(this).find('.amount').val()) || 0;
+                });
+
+                const invoiceDiscount = parseFloat($('#invoiceDiscount').val()) || 0;
+
+                $('#subTotal').val(subTotal.toFixed(2));
+                $('#grandTotal').val((subTotal - invoiceDiscount).toFixed(2));
+            }
+        });
+    </script>
+}

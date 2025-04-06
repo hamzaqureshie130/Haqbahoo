@@ -45,6 +45,8 @@ namespace InfrastructionLayer.Haqbahoo
             services.AddScoped<IInventoryRepository, InventoryRepository>();
             services.AddScoped<ISaleRepository, SaleRepository>();
             services.AddScoped<ISaleItemRepository, SaleItemRepository>();
+            services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+            services.AddScoped<IInvoiceItemRepository, InvoiceItemRepository>();
 
 
 

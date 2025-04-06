@@ -20,5 +20,6 @@ namespace ApplicationLayer.Haqbahoo.Helper
             return $"{make} {name}  {variant} {model}";
         }
 
+
     }
 }
