@@ -29,10 +29,11 @@ namespace InfrastructionLayer.Haqbahoo.Repository
             return await _context.Products.FindAsync(id);
         }
 
-        public async Task AddProductAsync(Product product)
+        public async Task<Product> AddProductAsync(Product product)
         {
             await _context.Products.AddAsync(product);
             await _context.SaveChangesAsync();
+            return product;
         }
 
         public async Task UpdateProductAsync(Product product)

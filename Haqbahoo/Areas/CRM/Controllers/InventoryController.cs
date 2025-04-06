@@ -16,7 +16,7 @@ namespace Haqbahoo.Areas.CRM.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var inventories = await _inventoryService.GetInventories();
+            var inventories = await _inventoryService.GetStockReport();
             return View(inventories);
         }
     }

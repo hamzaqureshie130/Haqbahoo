@@ -1,4 +1,5 @@
 ﻿using DomainLayer.Haqbahoo.Entities;
+using DomainLayer.Haqbahoo.ViewModel;
 using InfrastructionLayer.Haqbahoo.IRepository;
 using InfrastructionLayer.Haqbahoo.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -46,28 +47,29 @@ namespace InfrastructionLayer.Haqbahoo.Repository
             return null;
         }
 
-        public async Task<IEnumerable<object>> GetStockReport()
+        public async Task<IEnumerable<InventoryViewModel>> GetStockReport()
         {
-            var stockReport = (from p in _context.Products
-                               join i in _context.Inventories on p.Id equals i.ProductId into inventoryGroup
-                               from ig in inventoryGroup.DefaultIfEmpty()
-                               group ig by new { p.Id, p.Title, p.Code, p.Quantity } into g
-                               select new
-                               {
-                                   ProductId = g.Key.Id,
-                                   ProductTitle = g.Key.Title,
-                                   ProductCode = g.Key.Code,
-                                   TotalQuantityIn = g.Sum(x => x.QuantityIn ?? 0),
-                                   TotalQuantityOut = g.Sum(x => x.QuantityOut ?? 0),
-                                   CurrentStock = g.Key.Quantity + g.Sum(x => x.QuantityIn ?? 0) - g.Sum(x => x.QuantityOut ?? 0),
-                                   InitialStock = g.Key.Quantity,  // Assuming Quantity is initial stock in Product
-                                   LastUpdated = g.Max(x => x.LastUpdated)
-                               })
-                .OrderBy(r => r.ProductTitle)
-                .ToList();
+            var result = from p in _context.Products
+                         join i in _context.Inventories on p.Id equals i.ProductId into inventoryGroup
+                         from inv in inventoryGroup.DefaultIfEmpty()
+                         group inv by new { p.Id, p.Code, p.Title } into g
+                         select new InventoryViewModel
+                         {
+                             ProductId = g.Key.Id,
+                             Code = g.Key.Code,
+                             Title = g.Key.Title,
+                             QuantityIn = g.Sum(i => (i != null ? i.QuantityIn : 0) ?? 0),
+                             QuantityOut = g.Sum(i => (i != null ? i.QuantityOut : 0) ?? 0),
+                             QuantityAvailable =
+                                (g.Sum(i => (i != null ? i.QuantityIn : 0) ?? 0) -
+                                 g.Sum(i => (i != null ? i.QuantityOut : 0) ?? 0))
+                         };
 
-            return stockReport;
+            return await result.ToListAsync();
         }
 
+
+
     }
+
 }

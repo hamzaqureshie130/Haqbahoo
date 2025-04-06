@@ -11,7 +11,7 @@ namespace InfrastructionLayer.Haqbahoo.IRepository
     {
         Task<IEnumerable<Product>> GetAllProductsAsync();
         Task<Product> GetProductByIdAsync(Guid id);
-        Task AddProductAsync(Product product);
+        Task<Product> AddProductAsync(Product product);
         Task UpdateProductAsync(Product product);
         Task DeleteProductAsync(Guid id);
     }
