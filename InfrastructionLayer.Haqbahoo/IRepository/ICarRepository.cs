@@ -14,5 +14,9 @@ namespace InfrastructionLayer.Haqbahoo.IRepository
         Task<Car> EditCar(Car car);
         Task<Car> GetCarById(Guid carId);
         Task<IEnumerable<Car>> GetAllCar();
+        Task<List<Car>> GetAllActiveCar();
+        Task<List<Car>> GetAllInActiveCar();
+        Task<bool> LockCar(Guid carId);
+        Task<bool> UnLockCar(Guid carId);
     }
 }

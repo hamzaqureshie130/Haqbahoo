@@ -1,4 +1,6 @@
-﻿	<!-- start page content -->
+﻿@using DomainLayer.Haqbahoo.ViewModel
+@model DashboardViewModel;
+	<!-- start page content -->
 <div class="page-content">
 		<div class="page-bar">
 			<div class="page-title-breadcrumb">
@@ -22,13 +24,13 @@
 						<span class="info-box-icon push-bottom"><i data-feather="users"></i></span>
 						<div class="info-box-content">
 							<span class="info-box-text">Total Cars</span>
-							<span class="info-box-number">450</span>
+							<span class="info-box-number">@Model.Dasboard.TotalCars</span>
 							<div class="progress">
 								<div class="progress-bar" style="width: 45%"></div>
 							</div>
-							<span class="progress-description">
+							@* <span class="progress-description">
 								45% Increase in 28 Days
-							</span>
+							</span> *@
 						</div>
 						<!-- /.info-box-content -->
 					</div>
@@ -40,13 +42,13 @@
 						<span class="info-box-icon push-bottom"><i data-feather="user"></i></span>
 						<div class="info-box-content">
 							<span class="info-box-text">Active Cars</span>
-							<span class="info-box-number">155</span>
+							<span class="info-box-number">@Model.Dasboard.TotalActiveCar</span>
 							<div class="progress">
 								<div class="progress-bar" style="width: 40%"></div>
 							</div>
-							<span class="progress-description">
+						@* 	<span class="progress-description">
 								40% Increase in 28 Days
-							</span>
+							</span> *@
 						</div>
 						<!-- /.info-box-content -->
 					</div>
@@ -58,13 +60,13 @@
 						<span class="info-box-icon push-bottom"><i data-feather="book"></i></span>
 						<div class="info-box-content">
 							<span class="info-box-text">Inactive Cars</span>
-							<span class="info-box-number">52</span>
+						<span class="info-box-number">@Model.Dasboard.TotalInactiveCar</span>
 							<div class="progress">
 								<div class="progress-bar" style="width: 85%"></div>
 							</div>
-							<span class="progress-description">
+						@* 	<span class="progress-description">
 								85% Increase in 28 Days
-							</span>
+							</span> *@
 						</div>
 						<!-- /.info-box-content -->
 					</div>
@@ -96,7 +98,7 @@
 		<!-- end widget -->
 
 		<!-- start new student list -->
-		<div class="row">
+	@* 	<div class="row">
 			<div class="col-md-12 col-sm-12">
 				<div class="card  card-box">
 					<div class="card-head">
@@ -276,7 +278,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div> *@
 		<!-- end new student list -->
 
 <!-- end page content -->

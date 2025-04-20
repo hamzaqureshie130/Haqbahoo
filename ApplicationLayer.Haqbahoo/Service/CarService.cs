@@ -124,5 +124,25 @@ namespace ApplicationLayer.Haqbahoo.Service
         {
             return await _carRepository.GetCarById(carId);
         }
+
+        public async Task<List<Car>> GetAllActiveCar()
+        {
+           return await _carRepository.GetAllActiveCar();
+        }
+
+        public async Task<List<Car>> GetAllInActiveCar()
+        {
+           return await _carRepository.GetAllInActiveCar();
+        }
+
+        public async Task<bool> LockCar(Guid carId)
+        {
+           return await _carRepository.LockCar(carId);
+        }
+
+        public async Task<bool> UnLockCar(Guid carId)
+        {
+           return await _carRepository.UnLockCar(carId);
+        }
     }
 }

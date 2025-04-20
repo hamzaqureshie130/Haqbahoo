@@ -1,10 +1,12 @@
 ﻿using ApplicationLayer.Haqbahoo.IService;
 using DomainLayer.Haqbahoo.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Haqbahoo.Areas.CRM.Controllers
 {
     [Area("CRM")]
+    [Authorize(Roles = "Admin")]
     public class WorkShopController : Controller
     {
         private readonly IWorkShopService _workShopService;

@@ -1,12 +1,14 @@
 ﻿using ApplicationLayer.Haqbahoo.IService;
 using ApplicationLayer.Haqbahoo.Service;
 using DomainLayer.Haqbahoo.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Haqbahoo.Areas.CRM.Controllers
 {
     [Area("CRM")]
+    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;

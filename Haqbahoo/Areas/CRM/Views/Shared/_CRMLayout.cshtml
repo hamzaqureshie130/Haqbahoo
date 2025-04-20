@@ -36,7 +36,7 @@
 	<!-- jQuery sabse pehle -->
 	<!-- Bootstrap Select CSS -->
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-	
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 	
 	<!-- favicon -->
 	<link rel="shortcut icon" href="/assets/crm/img/favicon.ico" />
@@ -280,31 +280,13 @@
 								<span class="username username-hide-on-mobile"> Usman Butt
 							</a>
 							<ul class="dropdown-menu dropdown-menu-default">
+								
 								<li>
-									<a href="user_profile.html">
-										<i class="icon-user"></i> Profile
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<i class="icon-settings"></i> Settings
-									</a>
-								</li>
-								<li>
-									<a href="#">
-										<i class="icon-directions"></i> Help
-									</a>
-								</li>
-								<li class="divider"> </li>
-								<li>
-									<a href="lock_screen.html">
-										<i class="icon-lock"></i> Lock
-									</a>
-								</li>
-								<li>
-									<a href="login.html">
-										<i class="icon-logout"></i> Log Out
-									</a>
+									<form class="nav-item" asp-area="Identity" asp-page="/Account/Logout"
+										  asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+										<button type="submit" class="nav-link text-white">Logout</button>
+									</form>
+
 								</li>
 							</ul>
 						</li>
@@ -345,7 +327,7 @@
 								</div>
 							</li>
 							<li class="nav-item start active open">
-								<a href="#" class="nav-link nav-toggle">
+								<a href="/crm" class="nav-link nav-toggle">
 									<i data-feather="airplay"></i>
 									<span class="title">Dashboard</span>
 									<span class="selected"></span>

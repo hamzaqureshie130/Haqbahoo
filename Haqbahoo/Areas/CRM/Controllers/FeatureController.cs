@@ -2,6 +2,7 @@
 using ApplicationLayer.Haqbahoo.Service;
 using DomainLayer.Haqbahoo.Entities;
 using Haqbahoo.Helper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Org.BouncyCastle.Bcpg.Sig;
 using Stripe.Entitlements;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 namespace Haqbahoo.Areas.CRM.Controllers
 {
     [Area("CRM")]
+    [Authorize(Roles = "Admin")]
     public class FeatureController : Controller
     {
         private readonly IFeatureService _featureService;

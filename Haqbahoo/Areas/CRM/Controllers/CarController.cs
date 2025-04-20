@@ -2,12 +2,14 @@
 using ApplicationLayer.Haqbahoo.Service;
 using DomainLayer.Haqbahoo.Entities;
 using DomainLayer.Haqbahoo.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Haqbahoo.Areas.CRM.Controllers
 {
     [Area("CRM")]
+    [Authorize(Roles = "Admin")]
     public class CarController : Controller
     {
         private readonly ICarService _carService;
@@ -136,6 +138,26 @@ namespace Haqbahoo.Areas.CRM.Controllers
                 bool status = await _carService.DeleteCar(id);
                 return Redirect("/CRM/Car/Index");
             }
+            return Redirect("/CRM/Car/Index");
+        }
+        [HttpPost]
+        public async Task<IActionResult> InActive(Guid carId)
+        {
+            if(carId== Guid.Empty)
+            {
+                return Redirect("/CRM/Car/Index");
+            }
+            bool status =  await _carService.LockCar(carId);
+            return Redirect("/CRM/Car/Index");
+        }
+        [HttpPost]
+        public async Task<IActionResult> Active(Guid carId)
+        {
+            if (carId == Guid.Empty)
+            {
+                return Redirect("/CRM/Car/Index");
+            }
+            bool status = await _carService.UnLockCar(carId);
             return Redirect("/CRM/Car/Index");
         }
     }
