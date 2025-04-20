@@ -32,6 +32,7 @@ namespace ApplicationLayer.Haqbahoo
             services.AddScoped<ISaleItemService, SaleItemService>();
             services.AddScoped<IInvoiceService, InvoiceService>();
             services.AddScoped<IInvoiceItemService, InvoiceItemService>();
+            services.AddScoped<IDashBoardService, DashboardService>();
 
 
             services.AddScoped<FileUploader>();

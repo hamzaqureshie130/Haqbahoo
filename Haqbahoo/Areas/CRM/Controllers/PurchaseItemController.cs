@@ -1,11 +1,13 @@
 ﻿using ApplicationLayer.Haqbahoo.IService;
 using DomainLayer.Haqbahoo.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Haqbahoo.Areas.CRM.Controllers
 {
     [Area("CRM")]
+    [Authorize(Roles = "Admin")]
     public class PurchaseItemController : Controller
     {
         private readonly IPurchaseItemService _purchaseItemService;

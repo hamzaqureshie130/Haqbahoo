@@ -62,15 +62,50 @@ namespace InfrastructionLayer.Haqbahoo.Repository
             return null;
         }
 
+      
+
         public async Task<IEnumerable<Car>> GetAllCar()
         {
           return await _context.Cars.Include(c => c.Category).Include(x => x.GalleryImages).Include(x => x.CarFeatures).ThenInclude(x => x.Feature).ToListAsync();
         }
 
+        
         public async Task<Car> GetCarById(Guid carId)
         {
            var car = _context.Cars.Include(c => c.Category).Include(x=>x.GalleryImages).Include(x=>x.CarFeatures).ThenInclude(x=>x.Feature).FirstOrDefault(c => c.Id == carId);
             return car;
+        }
+        public async Task<List<Car>> GetAllInActiveCar()
+        {
+            return await _context.Cars.Where(c => c.Status == true).Include(c => c.Category).Include(x => x.GalleryImages).Include(x => x.CarFeatures).ThenInclude(x => x.Feature).ToListAsync();
+
+        }
+        public async  Task<List<Car>> GetAllActiveCar()
+        {
+            return await _context.Cars.Where(c => c.Status == false).Include(c => c.Category).Include(x => x.GalleryImages).Include(x => x.CarFeatures).ThenInclude(x => x.Feature).ToListAsync();
+        }
+        public async Task<bool> LockCar(Guid carId)
+        {
+            var car  = await _context.Cars.FindAsync(carId);
+            if (car != null)
+            {
+                car.Status = true;
+                _context.Cars.Update(car);
+                return await _context.SaveChangesAsync() > 0;
+            }
+            return false;
+        }
+
+        public async Task<bool> UnLockCar(Guid carId)
+        {
+            var car = await _context.Cars.FindAsync(carId);
+            if (car != null)
+            {
+                car.Status = false;
+                _context.Cars.Update(car);
+                return await _context.SaveChangesAsync() > 0;
+            }
+            return false;
         }
     }
 }
